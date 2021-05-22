@@ -10,9 +10,12 @@ import {
   Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useDispatch } from "react-redux";
+
 import InputText from "../../components/InputText";
 import Card from "../../components/Card";
 import * as Animatable from "react-native-animatable";
+import { userLogin } from "../../store/actions/actions";
 
 const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
 
@@ -69,6 +72,12 @@ const UserLoginScreen = (props) => {
     [dispatchFormState]
   );
 
+  const reduxDispatch = useDispatch();
+  const loginHandler = () => {
+    if (formState.isFormValid) {
+      reduxDispatch(userLogin(formState.inputValues));
+    }
+  };
   return (
     <TouchableWithoutFeedback
       style={styles.container}
@@ -124,14 +133,7 @@ const UserLoginScreen = (props) => {
                 style={styles.textInput}
                 onInputChange={inputChangeHandler}
               />
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                  if (formState.isFormValid) {
-                    //add redux logic here to login
-                  }
-                }}
-              >
+              <TouchableOpacity style={styles.button} onPress={loginHandler}>
                 <Text style={styles.signin}>SignIn</Text>
               </TouchableOpacity>
               <TouchableOpacity
