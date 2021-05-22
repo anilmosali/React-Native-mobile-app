@@ -2,18 +2,20 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+import { Provider } from "react-redux";
 
-import AuthNavigator from "./navigation/AuthNavigator";
-import DrawerNavigator from "./navigation/DrawerNavigator";
+import store from "./store/store";
+import MainNavigator from "./navigation/MainNavigator";
 
 export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <NavigationContainer>
-        {/* <AuthNavigator /> */}
-        <DrawerNavigator />
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          <MainNavigator />
+        </NavigationContainer>
+      </Provider>
     </View>
   );
 }

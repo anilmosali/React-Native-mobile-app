@@ -14,7 +14,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 import ModalDropdown from "react-native-modal-dropdown";
 import * as Animatable from "react-native-animatable";
+import { useDispatch } from "react-redux";
 
+import { userSignUp } from "../../store/actions/actions";
 import InputText from "../../components/InputText";
 
 const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
@@ -51,6 +53,7 @@ const UserSignUpScreen = (props) => {
       isMarried: false,
       phone: "",
       email: "",
+      password: "",
     },
     inputValidities: {
       familyName: false,
@@ -59,6 +62,7 @@ const UserSignUpScreen = (props) => {
       isMarried: false,
       phone: false,
       email: false,
+      password: false,
     },
     formIsValid: false,
   });
@@ -74,6 +78,18 @@ const UserSignUpScreen = (props) => {
     },
     [dispatchFormState]
   );
+  const reduxDispatch = useDispatch();
+  const signUpHandler = () => {
+    //console.log(formState);
+    if (formState.isFormValid) {
+      reduxDispatch(userSignUp(formState.inputValues));
+      props.navigation.navigate("familySignUp", {
+        userData: formState.inputValues,
+      });
+    } else {
+      console.log(" Pressed SignUp but Form is not Valid");
+    }
+  };
 
   return (
     <TouchableWithoutFeedback
@@ -179,7 +195,7 @@ const UserSignUpScreen = (props) => {
                     placeholderTextColor="rgba(0,0,0,0.2)"
                     keyboardType="phone-pad"
                     errorText="Please enter correct Phone Number"
-                    minLength={12}
+                    minLength={10}
                     maxLength={13}
                     style={styles.textInput}
                     onInputChange={inputChangeHandler}
@@ -199,7 +215,24 @@ const UserSignUpScreen = (props) => {
                     keyboardType="email-address"
                     placeholderTextColor="rgba(0,0,0,0.2)"
                     errorText="Please enter correct Email"
-                    minLength={2}
+                    minLength={8}
+                    style={styles.textInput}
+                    onInputChange={inputChangeHandler}
+                  />
+                </View>
+                <View style={styles.inputField}>
+                  <Text style={styles.questionText}>Create Password:</Text>
+
+                  <InputText
+                    label="password"
+                    required
+                    secureTextEntry={true}
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    placeholder="Create Password"
+                    placeholderTextColor="rgba(0,0,0,0.2)"
+                    errorText="Please enter valid Password Email"
+                    minLength={8}
                     style={styles.textInput}
                     onInputChange={inputChangeHandler}
                   />
@@ -208,12 +241,7 @@ const UserSignUpScreen = (props) => {
                   <View style={styles.button}>
                     <TouchableOpacity
                       style={styles.buttonIcon}
-                      onPress={() => {
-                        console.log(formState);
-                        props.navigation.navigate("familySignUp", {
-                          userData: formState.inputValues,
-                        });
-                      }}
+                      onPress={signUpHandler}
                     >
                       <MaterialIcons
                         name="navigate-next"
