@@ -16,18 +16,26 @@ import {
 } from "react-native";
 import { useDispatch } from "react-redux";
 
-import { userSignOut } from "../store/actions/actions";
+import { userSignOut } from "../store/actions/authActions";
+import { toggleFamilyView } from "../store/actions/userProfileActions";
 
 const UserProfileScreen = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+  const reduxDispatch = useDispatch();
+
+  //toggle switch
+  const toggleSwitchHandler = () => {
+    setIsEnabled((previousState) => !previousState);
+    reduxDispatch(toggleFamilyView());
+  };
 
   //SignOut function
-  const reduxDispatch = useDispatch();
   const signOutHandler = () => {
     reduxDispatch(userSignOut());
   };
   //Singout END
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ paddingTop: 50, alignItems: "center" }}>
@@ -76,9 +84,9 @@ const UserProfileScreen = ({ navigation }) => {
             </Text>
             <Switch
               trackColor={{ false: "#767577", true: "#a3a3a3" }}
-              thumbColor={isEnabled ? "#016949" : "#f4f3f4"}
+              thumbColor={isEnabled ? "#ffffff" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
+              onValueChange={toggleSwitchHandler}
               value={isEnabled}
             />
             <Text style={{ fontSize: 17, fontWeight: "bold", marginLeft: 15 }}>

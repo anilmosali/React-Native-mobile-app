@@ -9,6 +9,7 @@ import {
   Keyboard,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -16,7 +17,7 @@ import ModalDropdown from "react-native-modal-dropdown";
 import * as Animatable from "react-native-animatable";
 import { useDispatch } from "react-redux";
 
-import { userSignUp } from "../../store/actions/actions";
+import { userSignUp } from "../../store/actions/authActions";
 import InputText from "../../components/InputText";
 
 const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
@@ -92,21 +93,23 @@ const UserSignUpScreen = (props) => {
   };
 
   return (
-    <TouchableWithoutFeedback
-      style={styles.container}
-      onPress={() => Keyboard.dismiss()}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
     >
       <LinearGradient
-        colors={["#f2f2f2", "#f0f0f0", "#fff"]}
+        colors={["#fff", "#f0f0f0", "#f2f2f2"]}
         style={styles.linearGradient}
       >
         <SafeAreaView style={styles.container}>
-          <KeyboardAvoidingView
+          <TouchableWithoutFeedback
             style={{ flex: 1 }}
-            behavior="padding"
-            enabled={true}
+            onPress={() => Keyboard.dismiss()}
           >
-            <ScrollView>
+            <ScrollView
+              contentContainerStyle={{ flexGrow: 1 }}
+              style={{ flex: 1, marginTop: Platform.OS === "ios" ? 0 : 30 }}
+            >
               <View style={styles.signUpContainer}>
                 <Animatable.View
                   animation="pulse"
@@ -283,10 +286,10 @@ const UserSignUpScreen = (props) => {
                 </View>
               </View>
             </ScrollView>
-          </KeyboardAvoidingView>
+          </TouchableWithoutFeedback>
         </SafeAreaView>
       </LinearGradient>
-    </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 

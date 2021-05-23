@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useCallback } from "react";
+import React, { useReducer, useCallback } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -17,7 +17,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 
 import InputText from "../../components/InputText";
-import { addFamilyNFriends } from "../../store/actions/actions";
+import { addFamilyNFriends } from "../../store/actions/authActions";
 
 const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
 
@@ -91,18 +91,18 @@ const SignUpFamilyScreen = (props) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
-      <SafeAreaView style={styles.container}>
-        <TouchableWithoutFeedback
-          style={{ flex: 1 }}
-          onPress={() => Keyboard.dismiss()}
-        >
-          <LinearGradient
-            colors={["#f2f2f2", "#f0f0f0", "#fff"]}
-            style={styles.linearGradient}
+      <LinearGradient
+        colors={["#fff", "#f0f0f0", "#f2f2f2"]}
+        style={styles.linearGradient}
+      >
+        <SafeAreaView style={styles.container}>
+          <TouchableWithoutFeedback
+            style={{ flex: 1 }}
+            onPress={() => Keyboard.dismiss()}
           >
             <ScrollView
               contentContainerStyle={{ flexGrow: 1 }}
-              style={{ flex: 1 }}
+              style={{ flex: 1, marginTop: Platform.OS === "ios" ? 0 : 30 }}
             >
               <View style={styles.signUpContainer}>
                 <View style={styles.headerContainer}>
@@ -350,9 +350,9 @@ const SignUpFamilyScreen = (props) => {
                 </View>
               </View>
             </ScrollView>
-          </LinearGradient>
-        </TouchableWithoutFeedback>
-      </SafeAreaView>
+          </TouchableWithoutFeedback>
+        </SafeAreaView>
+      </LinearGradient>
     </KeyboardAvoidingView>
   );
 };
@@ -367,8 +367,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
-    top: 40,
-    height: Dimensions.get("window").height - 40,
+    top: 0,
+    height: Dimensions.get("window").height,
   },
   signUpContainer: {
     flex: 1,

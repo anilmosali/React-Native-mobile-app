@@ -1,5 +1,5 @@
 import { Alert } from "react-native";
-import actionTypes from "../constants";
+import { authActionTypes as actionTypes } from "../constants";
 import firebase from "../../firebase/fireConfig";
 
 export const userSignUp = (user) => {

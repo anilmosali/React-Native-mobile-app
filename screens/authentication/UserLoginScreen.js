@@ -4,10 +4,13 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  SafeAreaView,
   View,
+  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
+  ScrollView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch } from "react-redux";
@@ -15,7 +18,7 @@ import { useDispatch } from "react-redux";
 import InputText from "../../components/InputText";
 import Card from "../../components/Card";
 import * as Animatable from "react-native-animatable";
-import { userLogin } from "../../store/actions/actions";
+import { userLogin } from "../../store/actions/authActions";
 
 const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
 
@@ -80,77 +83,98 @@ const UserLoginScreen = (props) => {
     }
   };
   return (
-    <TouchableWithoutFeedback
-      style={styles.container}
-      onPress={() => Keyboard.dismiss()}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
     >
-      <View style={styles.container}>
-        <LinearGradient
-          colors={["#016949", "#007552", "#03a170"]}
-          style={styles.linearGradient}
-        >
-          <Animatable.View
-            animation="zoomInDown"
-            duration={1000}
-            delay={200}
-            style={styles.logoContainer}
+      <LinearGradient
+        colors={["#016949", "#007552", "#03a170"]}
+        style={styles.linearGradient}
+      >
+        <SafeAreaView style={styles.container}>
+          <TouchableWithoutFeedback
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+            onPress={() => Keyboard.dismiss()}
           >
-            <Image
-              source={require("../../assets/logo.png")}
-              style={styles.image}
-            />
-            <Text style={styles.logoText}>Kutumbakam</Text>
-          </Animatable.View>
-          <Animatable.View
-            animation="flipInX"
-            duration={800}
-            delay={300}
-            style={styles.animatableContainer}
-          >
-            <Card style={styles.card}>
-              <InputText
-                label="username"
-                required
-                email
-                autoCorrect={false}
-                autoCapitalize="none"
-                placeholder="User Name"
-                placeholderTextColor="rgba(255,255,255,0.7)"
-                errorText="Please enter correct User Name"
-                minLength={7}
-                style={styles.textInput}
-                onInputChange={inputChangeHandler}
-              />
-              <InputText
-                label="password"
-                required
-                secureTextEntry
-                autoCorrect={false}
-                autoCapitalize="none"
-                placeholder="Password"
-                placeholderTextColor="rgba(255,255,255,0.7)"
-                errorText="Please enter correct Password"
-                minLength={8}
-                style={styles.textInput}
-                onInputChange={inputChangeHandler}
-              />
-              <TouchableOpacity style={styles.button} onPress={loginHandler}>
-                <Text style={styles.signin}>SignIn</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.signUpView}
-                onPress={() => {
-                  console.log(formState);
-                  navigation.navigate("signup");
-                }}
+            <ScrollView
+              contentContainerStyle={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              style={{
+                flex: 1,
+              }}
+            >
+              <Animatable.View
+                animation="zoomInDown"
+                duration={1000}
+                delay={200}
+                style={styles.logoContainer}
               >
-                <Text style={styles.signUpText}>Not an User? SignUp Here!</Text>
-              </TouchableOpacity>
-            </Card>
-          </Animatable.View>
-        </LinearGradient>
-      </View>
-    </TouchableWithoutFeedback>
+                <Image
+                  source={require("../../assets/logo.png")}
+                  style={styles.image}
+                />
+                <Text style={styles.logoText}>Kutumbakam</Text>
+              </Animatable.View>
+              <Animatable.View
+                animation="flipInX"
+                duration={800}
+                delay={300}
+                style={styles.animatableContainer}
+              >
+                <Card style={styles.card}>
+                  <InputText
+                    label="username"
+                    required
+                    email
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    placeholder="User Name"
+                    placeholderTextColor="rgba(255,255,255,0.7)"
+                    errorText="Please enter correct User Name"
+                    minLength={7}
+                    style={styles.textInput}
+                    onInputChange={inputChangeHandler}
+                  />
+                  <InputText
+                    label="password"
+                    required
+                    secureTextEntry
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    placeholder="Password"
+                    placeholderTextColor="rgba(255,255,255,0.7)"
+                    errorText="Please enter correct Password"
+                    minLength={8}
+                    style={styles.textInput}
+                    onInputChange={inputChangeHandler}
+                  />
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={loginHandler}
+                  >
+                    <Text style={styles.signin}>SignIn</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.signUpView}
+                    onPress={() => {
+                      console.log(formState);
+                      navigation.navigate("signup");
+                    }}
+                  >
+                    <Text style={styles.signUpText}>
+                      Not an User? SignUp Here!
+                    </Text>
+                  </TouchableOpacity>
+                </Card>
+              </Animatable.View>
+            </ScrollView>
+          </TouchableWithoutFeedback>
+        </SafeAreaView>
+      </LinearGradient>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -162,8 +186,6 @@ const styles = StyleSheet.create({
   },
   linearGradient: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
   logoContainer: {
     width: "80%",

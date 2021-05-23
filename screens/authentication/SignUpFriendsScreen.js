@@ -13,10 +13,12 @@ import {
   Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import ModalDropdown from "react-native-modal-dropdown";
+import { useDispatch } from "react-redux";
 
 import InputText from "../../components/InputText";
+import { addFamilyNFriends } from "../../store/actions/authActions";
 import {
   FORM_INPUT_UPDATE,
   formReducer,
@@ -54,6 +56,11 @@ const SignUpFriendsScreen = (props) => {
     },
     [dispatchFormState]
   );
+
+  const reduxDispatch = useDispatch();
+  const skipHandler = () => {
+    reduxDispatch(addFamilyNFriends(formState.inputValues));
+  };
 
   return (
     <KeyboardAvoidingView
@@ -229,8 +236,10 @@ const SignUpFriendsScreen = (props) => {
                   <View
                     style={{ alignItems: "center", justifyContent: "center" }}
                   >
-                    <Text style={{ fontSize: 12 }}>
-                      Don't Worry we can add others later
+                    <Text
+                      style={{ fontSize: 13, opacity: 0.6, fontWeight: "bold" }}
+                    >
+                      Don't Worry You can add or update people later
                     </Text>
 
                     <View style={styles.buttonContainer}>
@@ -270,9 +279,7 @@ const SignUpFriendsScreen = (props) => {
                     <View style={{ marginBottom: 10 }}>
                       <TouchableOpacity
                         style={styles.backButton}
-                        onPress={() => {
-                          props.navigation.navigate("login");
-                        }}
+                        onPress={skipHandler}
                       >
                         <View
                           style={{
@@ -281,19 +288,18 @@ const SignUpFriendsScreen = (props) => {
                             justifyContent: "center",
                             backgroundColor: "rgba(0,0,0,0.8)",
                             padding: 5,
-                            paddingRight: 10,
+                            paddingLeft: 10,
                             borderRadius: 12,
                           }}
                         >
+                          <Text style={{ color: "#fff", fontWeight: "800" }}>
+                            Skip for now
+                          </Text>
                           <MaterialIcons
-                            name="navigate-before"
+                            name="navigate-next"
                             size={40}
                             color="white"
                           />
-                          <Text style={{ color: "#fff", fontWeight: "800" }}>
-                            {" "}
-                            Take me back to Login
-                          </Text>
                         </View>
                       </TouchableOpacity>
                     </View>
@@ -326,7 +332,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     width: "100%",
-    height: 40,
+
     alignItems: "center",
     justifyContent: "center",
     //marginBottom: 20,
