@@ -1,6 +1,8 @@
 const actionTypes = {
   USER_LOGIN: "USER_LOGIN",
   USER_SIGNUP: "USER_SIGNUP",
+  USER_SIGNOUT: "USER_SIGNOUT",
+  ADD_USER_DETAILS_ON_SIGNUP: "ADD_USER_DETAILS_ON_SIGNUP",
 };
 
 export default actionTypes;

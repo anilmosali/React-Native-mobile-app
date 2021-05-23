@@ -3,12 +3,23 @@ import { useSelector } from "react-redux";
 
 import AuthNavigator from ".//AuthNavigator";
 import DrawerNavigator from "./DrawerNavigator";
+import SingUpStackNavigator from "./SingUpStackNavigator";
 
 const MainNavigator = () => {
-  const isAuthorizedFlag = useSelector((state) => state.auth.isLoggedIn);
-  console.log(isAuthorizedFlag);
+  const { isLoggedIn, skipFamilyAndFriendsScreenFlag } = useSelector(
+    (state) => state.auth
+  );
+  console.log(isLoggedIn);
 
-  return isAuthorizedFlag ? <DrawerNavigator /> : <AuthNavigator />;
+  return isLoggedIn ? (
+    skipFamilyAndFriendsScreenFlag ? (
+      <DrawerNavigator />
+    ) : (
+      <SingUpStackNavigator />
+    )
+  ) : (
+    <AuthNavigator />
+  );
 };
 
 export default MainNavigator;

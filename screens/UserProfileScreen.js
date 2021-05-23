@@ -14,11 +14,20 @@ import {
   Switch,
   TouchableOpacity,
 } from "react-native";
+import { useDispatch } from "react-redux";
+
+import { userSignOut } from "../store/actions/actions";
 
 const UserProfileScreen = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
+  //SignOut function
+  const reduxDispatch = useDispatch();
+  const signOutHandler = () => {
+    reduxDispatch(userSignOut());
+  };
+  //Singout END
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ paddingTop: 50, alignItems: "center" }}>
@@ -160,6 +169,7 @@ const UserProfileScreen = ({ navigation }) => {
         >
           <TouchableOpacity
             style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
+            onPress={signOutHandler}
           >
             <MaterialCommunityIcons name="logout" size={24} color="black" />
             <Text

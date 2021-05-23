@@ -14,8 +14,10 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
 
 import InputText from "../../components/InputText";
+import { addFamilyNFriends } from "../../store/actions/actions";
 
 const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
 
@@ -43,8 +45,9 @@ const formReducer = (state, action) => {
 };
 
 const SignUpFamilyScreen = (props) => {
-  const { userData } = props.route.params;
+  // const { userData } = props.route.params;
   //console.log(userData);
+  const userData = useSelector((state) => state.auth);
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       familyName: "",
@@ -76,6 +79,12 @@ const SignUpFamilyScreen = (props) => {
     },
     [dispatchFormState]
   );
+
+  //Function for skip to home page
+  const reduxDispatch = useDispatch();
+  const skipHandler = () => {
+    reduxDispatch(addFamilyNFriends(formState.inputValues));
+  };
 
   return (
     <KeyboardAvoidingView
@@ -270,12 +279,14 @@ const SignUpFamilyScreen = (props) => {
                   <View
                     style={{ alignItems: "center", justifyContent: "center" }}
                   >
-                    <Text style={{ fontSize: 12 }}>
-                      Don't Worry we can add others later
+                    <Text
+                      style={{ fontSize: 13, opacity: 0.6, fontWeight: "bold" }}
+                    >
+                      Don't Worry You can add or update later
                     </Text>
 
                     <View style={styles.buttonContainer}>
-                      <View style={styles.button}>
+                      {/* <View style={styles.button}>
                         <TouchableOpacity
                           style={styles.buttonIcon}
                           onPress={() => {
@@ -289,7 +300,7 @@ const SignUpFamilyScreen = (props) => {
                             color="white"
                           />
                         </TouchableOpacity>
-                      </View>
+                      </View> */}
                       <View style={styles.button}>
                         <TouchableOpacity
                           style={styles.buttonIcon}
@@ -311,9 +322,7 @@ const SignUpFamilyScreen = (props) => {
                     <View style={{ marginBottom: 10 }}>
                       <TouchableOpacity
                         style={styles.backButton}
-                        onPress={() => {
-                          props.navigation.navigate("login");
-                        }}
+                        onPress={skipHandler}
                       >
                         <View
                           style={{
@@ -322,19 +331,18 @@ const SignUpFamilyScreen = (props) => {
                             justifyContent: "center",
                             backgroundColor: "rgba(0,0,0,0.8)",
                             padding: 5,
-                            paddingRight: 10,
+                            paddingLeft: 10,
                             borderRadius: 12,
                           }}
                         >
+                          <Text style={{ color: "#fff", fontWeight: "800" }}>
+                            Skip for now
+                          </Text>
                           <MaterialIcons
-                            name="navigate-before"
+                            name="navigate-next"
                             size={40}
                             color="white"
                           />
-                          <Text style={{ color: "#fff", fontWeight: "800" }}>
-                            {" "}
-                            Take me back to Login
-                          </Text>
                         </View>
                       </TouchableOpacity>
                     </View>

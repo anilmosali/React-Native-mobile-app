@@ -74,6 +74,7 @@ const UserLoginScreen = (props) => {
 
   const reduxDispatch = useDispatch();
   const loginHandler = () => {
+    console.log(formState);
     if (formState.isFormValid) {
       reduxDispatch(userLogin(formState.inputValues));
     }

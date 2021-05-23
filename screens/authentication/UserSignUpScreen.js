@@ -80,12 +80,12 @@ const UserSignUpScreen = (props) => {
   );
   const reduxDispatch = useDispatch();
   const signUpHandler = () => {
-    //console.log(formState);
+    console.log(formState);
     if (formState.isFormValid) {
       reduxDispatch(userSignUp(formState.inputValues));
-      props.navigation.navigate("familySignUp", {
-        userData: formState.inputValues,
-      });
+      // props.navigation.navigate("familySignUp", {
+      //   userData: formState.inputValues,
+      // });
     } else {
       console.log(" Pressed SignUp but Form is not Valid");
     }
