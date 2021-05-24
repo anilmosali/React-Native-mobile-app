@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, SafeAreaView, StyleSheet, StatusBar } from "react-native";
 import FamilyPerson from "./FamilyPerson";
 
 const FamilyList = ({ data }) => {
@@ -62,7 +62,7 @@ const FamilyList = ({ data }) => {
   });
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={flatlistData}
         renderItem={(itemData) => {
@@ -71,7 +71,7 @@ const FamilyList = ({ data }) => {
         }}
         contentContainerStyle={styles.flatlist}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -80,10 +80,12 @@ export default FamilyList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: StatusBar.currentHeight,
   },
   flatlist: {
     marginTop: 20,
     marginBottom: 20,
     marginRight: 20,
+    paddingBottom: 70,
   },
 });
